@@ -74,7 +74,13 @@ def katherine():
 
 	return render_template('katherine.html')
 
+# William's page
+@app.route("/william")
+def william():
+	return render_template('william.html')
+
 '''
+
 @app.route("scrap")
 def scrap():
 	page = requests.get('http://econpy.pythonanywhere.com/ex/001.html')
