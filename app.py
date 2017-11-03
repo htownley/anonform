@@ -79,7 +79,10 @@ def katherine():
 def william():
 	return render_template('william.html')
 
-
+# Tasha's page
+@app.route("/tasha")
+def tasha():
+	return render_template('tasha.html')
 
 
 if __name__ == "__main__":
