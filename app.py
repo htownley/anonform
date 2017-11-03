@@ -18,7 +18,7 @@ def hello():
 	if request.method == "POST":
    		return redirect(url_for('modal', message_body=request.form["msg"]))
 	else:
-   		return render_template('index.html')
+   		return render_template('main.html')
 
 @app.route("/sms/<message_body>")
 def sms(message_body):
