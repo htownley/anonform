@@ -13,8 +13,14 @@ account_sid = "AC1c04fe37d935a15562607e929cff7b85"
 auth_token  = "c7cd4c8ed7c57061b3f03ac839b146b9"
 client = Client(account_sid, auth_token)
 
-@app.route("/", methods=["POST", "GET"])
+@app.route("/")
 def hello():
+
+	
+   		return render_template('main.html')
+
+@app.route("/sendSms", methods=["POST", "GET"])
+def hi():
 	if request.method == "POST":
 		print(request.form["tel"])
 		print(request.form["body"])
@@ -108,19 +114,8 @@ def katherine():
 def william():
 	return render_template('william.html')
 
-'''
 
-@app.route("scrap")
-def scrap():
-	page = requests.get('http://econpy.pythonanywhere.com/ex/001.html')
-	tree = html.fromstring(page.content)
-	#This will create a list of buyers:
-	buyers = tree.xpath('//div[@title="buyer-name"]/text()')
-	#This will create a list of prices
-	prices = tree.xpath('//span[@class="item-price"]/text()')
-	print 'Buyers: ', buyers
-	print 'Prices: ', prices
-'''
+
 
 if __name__ == "__main__":
     # Change the host and port name if you want. The default config is port 

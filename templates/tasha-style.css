@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
+body{
+    background-color: rgb(4, 97, 59)
+}
+h1 {
+  color:pink;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: center;
+}
+
+#nav {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+}
+
+.navlink{
+    margin: 20px;
+    font-size: 1.5em;
+    border: none;
+    outline: none;
+    font-family: 'Poppins', serif;
+    color:black;
+}
+
+.navactive{
+    color:blue;
+}
+
+#nav-intro:hover {
+    color: blue;
+    
+}
+
+#nav-edu:hover {
+    color: red;
+    
+}
+
+#nav-pubs:hover {
+    color: green;
+    
+}
+
+#nav-interests:hover {
+    color: yellow;
+    
+}
+
+#nav-contact:hover {
+    color: orange;
+    
+}
+
+.maindiv{
+    display: none;
+}
+
+.mainactive{
+    display: inherit;
+}
