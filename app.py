@@ -79,7 +79,7 @@ def katherine():
 def william():
 	return render_template('william.html')
 
-'''
+
 
 
 if __name__ == "__main__":
