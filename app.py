@@ -8,34 +8,61 @@ from twilio.rest import Client
 app = Flask(__name__)
 
 # Your Account SID from twilio.com/console
-account_sid = "ACf211000f1e2bdf7ad833b9eaf541dc75"
+account_sid = "AC1c04fe37d935a15562607e929cff7b85"
 # Your Auth Token from twilio.com/console
-auth_token  = "5a6ab79b242b9d4fdc8a3ea22d3f4a7a"
+auth_token  = "c7cd4c8ed7c57061b3f03ac839b146b9"
 client = Client(account_sid, auth_token)
 
 @app.route("/", methods=["POST", "GET"])
 def hello():
 	if request.method == "POST":
-   		return redirect(url_for('modal', message_body=request.form["msg"]))
+		print(request.form["tel"])
+		print(request.form["body"])
+		print(request.form["recipient"])
+   		return redirect(url_for('modal', message_body=request.form["body"], phone=request.form["tel"], name=request.form["recipient"]))
 	else:
-   		return render_template('index.html')
+		f = open('data.txt', 'r')
+		names = []
+		messages = []
+		isMessage = 0
+		cursor = f.readline()
+		while (cursor != ""):
+			if (isMessage):
+				print("New message: " + cursor)
+				messages.append(cursor)
+			
+			else :
+				
+				if (cursor == "&&&\n"):
+					isMessage = 1
+
+				else:
+					names.append(cursor)
+
+			cursor = f.readline()
+
+	
+   		return render_template('index.html', messages=messages, names=names)
 
 @app.route("/sms/<message_body>")
 def sms(message_body):
 
 	message = client.messages.create(
-	    to="+19292849804",
-	    from_="+15005550006",
-	    body=message_body)
+	    to="9292849804",
+	    from_="8448538277",
+	    body="Message from: " +  message_body)
 	return "Message Sent! Here is the body: " + message.body
 
-@app.route("/modal/<message_body>")
-def modal(message_body):
+@app.route("/modal")
+def modal():
+	phone =  request.args['phone']
+	name = request.args['name']
+	message_body = request.args['message_body']
 
 	message = client.messages.create(
-	    to="+19292849804",
-	    from_="+15005550006",
-	    body=message_body)
+	    to=phone,
+	    from_="8448538277",
+	    body="What's up " + name + "? Here is the crazy news: " +  message_body)
 
 	return render_template('modal.html', message_body=message_body)
 
@@ -49,7 +76,9 @@ def scrape():
 	messages = tree.xpath('//span[@class="message"]/text()')
 
 	f = open('data.txt', 'w')
-	f.write('Recipient: '.join(recipients))
+	f.write('\n'.join(recipients));
+	f.write('\n&&&\n')
+	f.write('\n'.join(messages))
 
 	f.write('\n')
 	return 'Recipients: '.join(recipients)

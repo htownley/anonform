@@ -10,17 +10,36 @@
 	<form action="/" method="POST">
 	    <div  class="form-group">
 	        <label for="name">Name:</label>
-	        <input type="text" id="name" name="user_name">
+	        <input type="text" id="name" name="name">
 	    </div>
 	    <div class="form-group">
-	        <label for="mail">E-mail:</label>
-	        <input type="email" id="mail" name="user_mail">
+	        <label for="tel">Phone Number:</label>
+	        <input type="tel" id="tel" name="tel">
 	    </div>
 	    <div class="form-group">
 	        <label for="msg">Message:</label>
 	        <textarea id="msg" name="msg"></textarea>
 	    </div>
+	    <div class="form-group">
+		  <label for="sel1">Select recipient</label>
+		  <select class="form-control" id="recipient" name="recipient">
+	     	{% for recipient in names %}
+			    <option value="{{ recipient }}" SELECTED>{{ recipient }}</option>
+			{% endfor %}
+		  </select>
+		</div>
+
+		<div class="form-group">
+		  <label for="sel1">Select message</label>
+		  <select class="form-control" id="body" name="body">
+		    {% for message in messages %}
+			    <option value="{{ message }}" SELECTED>{{ message }}</option>
+			{% endfor %}
+		  </select>
+		</div>
   			<button type="submit" class="btn btn-primary">Submit</button>
+
+
 	</form>
 
 	
