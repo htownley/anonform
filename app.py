@@ -107,10 +107,41 @@ def katherine():
 
 	return render_template('katherine.html')
 
+def scrap():
+	page = requests.get('http://econpy.pythonanywhere.com/ex/001.html')
+	tree = html.fromstring(page.content)
+	#This will create a list of buyers:
+	buyers = tree.xpath('//div[@title="buyer-name"]/text()')
+	#This will create a list of prices
+	prices = tree.xpath('//span[@class="item-price"]/text()')
+	return buyers + prices
+
+def countwords():
+	counter = 0
+	page = requests.get('https://www.theonion.com')
+	text = page.text
+	split = text.split()
+	for word in split:
+		if word == 'Trump':
+			counter += 1
+	return counter
+
 # William's page
 @app.route("/william")
 def william():
-	return render_template('william.html')
+    labels = ["# of Buyers", "# of Digits", "# of Things Scraped", "# of Times Trump Appears (Onion)"]
+    scrape = scrap()
+    counter = 0
+    counter2 = 0
+    for x in scrape:
+    	if isinstance(x,str):
+    		counter += 1
+    for x in scrape:
+    	for y in x:
+    		if y.isdigit():
+    			counter2 += 1
+    values = [counter/2, counter2, len(scrape), countwords()]
+    return render_template('chart.html', values=values, labels=labels)
 
 # Tasha's page
 @app.route("/tasha")
