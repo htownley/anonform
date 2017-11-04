@@ -8,34 +8,65 @@ from twilio.rest import Client
 app = Flask(__name__)
 
 # Your Account SID from twilio.com/console
-account_sid = "ACf211000f1e2bdf7ad833b9eaf541dc75"
+account_sid = "AC1c04fe37d935a15562607e929cff7b85"
 # Your Auth Token from twilio.com/console
-auth_token  = "5a6ab79b242b9d4fdc8a3ea22d3f4a7a"
+auth_token  = "c7cd4c8ed7c57061b3f03ac839b146b9"
 client = Client(account_sid, auth_token)
 
-@app.route("/", methods=["POST", "GET"])
+@app.route("/")
 def hello():
+	return render_template('main.html')
+
+@app.route("/sendSms", methods=["POST", "GET"])
+def hi():
 	if request.method == "POST":
-   		return redirect(url_for('modal', message_body=request.form["msg"]))
+		print(request.form["tel"])
+		print(request.form["body"])
+		print(request.form["recipient"])
+		return redirect(url_for('modal', message_body=request.form["body"], phone=request.form["tel"], name=request.form["recipient"]))
 	else:
-   		return render_template('main.html')
+		f = open('data.txt', 'r')
+		names = []
+		messages = []
+		isMessage = 0
+		cursor = f.readline()
+		while (cursor != ""):
+			if (isMessage):
+				print("New message: " + cursor)
+				messages.append(cursor)
+			
+			else :
+				
+				if (cursor == "&&&\n"):
+					isMessage = 1
+
+				else:
+					names.append(cursor)
+
+			cursor = f.readline()
+
+	
+		return render_template('index.html', messages=messages, names=names)
 
 @app.route("/sms/<message_body>")
 def sms(message_body):
 
 	message = client.messages.create(
-	    to="+19292849804",
-	    from_="+15005550006",
-	    body=message_body)
+	    to="9292849804",
+	    from_="8448538277",
+	    body="Message from: " +  message_body)
 	return "Message Sent! Here is the body: " + message.body
 
-@app.route("/modal/<message_body>")
-def modal(message_body):
+@app.route("/modal")
+def modal():
+	phone =  request.args['phone']
+	name = request.args['name']
+	message_body = request.args['message_body']
 
 	message = client.messages.create(
-	    to="+19292849804",
-	    from_="+15005550006",
-	    body=message_body)
+	    to=phone,
+	    from_="8448538277",
+	    body="What's up " + name + "? Here is the crazy news: " +  message_body)
 
 	return render_template('modal.html', message_body=message_body)
 
@@ -49,7 +80,9 @@ def scrape():
 	messages = tree.xpath('//span[@class="message"]/text()')
 
 	f = open('data.txt', 'w')
-	f.write('Recipient: '.join(recipients))
+	f.write('\n'.join(recipients));
+	f.write('\n&&&\n')
+	f.write('\n'.join(messages))
 
 	f.write('\n')
 	return 'Recipients: '.join(recipients)
@@ -74,21 +107,50 @@ def katherine():
 
 	return render_template('katherine.html')
 
+def scrap():
+	page = requests.get('http://econpy.pythonanywhere.com/ex/001.html')
+	tree = html.fromstring(page.content)
+	#This will create a list of buyers:
+	buyers = tree.xpath('//div[@title="buyer-name"]/text()')
+	#This will create a list of prices
+	prices = tree.xpath('//span[@class="item-price"]/text()')
+	return buyers + prices
+
+def countwords():
+	counter = 0
+	page = requests.get('https://www.theonion.com')
+	text = page.text
+	split = text.split()
+	for word in split:
+		if word == 'Trump':
+			counter += 1
+	return counter
+
 # William's page
 @app.route("/william")
 def william():
-	return render_template('william.html')
+    labels = ["# of Buyers", "# of Digits", "# of Things Scraped", "# of Times Trump Appears (Onion)"]
+    scrape = scrap()
+    counter = 0
+    counter2 = 0
+    for x in scrape:
+    	if isinstance(x,str):
+    		counter += 1
+    for x in scrape:
+    	for y in x:
+    		if y.isdigit():
+    			counter2 += 1
+    values = [counter/2, counter2, len(scrape), countwords()]
+    return render_template('chart.html', values=values, labels=labels)
 
+# Tasha's page
 @app.route("/tasha")
 def tasha():
-	
 	return render_template('tasha.html')
 
 
-
-
 if __name__ == "__main__":
-    # Change the host and port name if you want. The default config is port 
-    # 5000 on localhost, which you can access by pointing your browser to
-    # `localhost:5000`, `127.0.0.1:5000`, or `0.0.0.0:5000`.
-    app.run(host='0.0.0.0', port=5000)
+	# Change the host and port name if you want. The default config is port 
+	# 5000 on localhost, which you can access by pointing your browser to
+	# `localhost:5000`, `127.0.0.1:5000`, or `0.0.0.0:5000`.
+	app.run(host='0.0.0.0', port=5000)
