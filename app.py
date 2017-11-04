@@ -79,6 +79,11 @@ def katherine():
 def william():
 	return render_template('william.html')
 
+@app.route("/tasha")
+def tasha():
+	
+	return render_template('tasha.html')
+
 
 
 

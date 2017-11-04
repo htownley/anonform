@@ -1,18 +1,72 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <title>Natasha's page</title>
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-    crossorigin="anonymous">
-    </script>
-    <link rel="stylesheet" href="tasha-style.css">
-</head>
+<meta charset="UTF-8">
 
+<!-- If IE use the latest rendering engine -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- Set the page to the width of the device and set the zoon level -->
+<meta name="viewport" content="width = device-width, initial-scale = 1">
+<title>Natasha</title>
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<style>
+.jumbotron{
+    background-color:#2E2D88;
+    color:white;
+}
+/* Adds borders for tabs */
+.tab-content {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}
+.nav-tabs {
+    margin-bottom: 0;
+}
+</style>
+
+</head>
 <body>
-	<h1> TASHA </h1>
-  <div id="container"></div>
-  <script src='tasha-main.js'></script>
-</body>
+
+<!-- CONTAINERS -->
+<!-- container puts padding around itself while container-fluid fills the whole screen. Bootstap grids require a container. -->
+<div class="container">
+
+<!-- page-header adds space aroundtext and enlarges it. It also adds an underline at the end -->
+<div class="page-header">
+<h1>Tasha</h1>
+</div>
+
+<!-- jumbotron enlarges fonts and puts everything in a gray box with rounded corners. If jumbotron is outside a container it fills the total width. You can change the styles by placing the changes after the Bootstrap CDN link -->
+<div class="jumbotron">
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+<!-- BUTTONS -->
+<!-- There are many built in button colors and sizes. If a link is to trigger in page functionality it should use role="button". The button element should be used in most situations -->
+<p>
+<a href="#" class = "btn btn-default btn-lg" role="button">More info</a>
+<button type="submit" class = "btn btn-danger" role = "button">Button</button>
+
+</p>
+
+<!-- bootstraptut2.html -->
+
+<!-- ICONS -->
+<!-- Bootstrap has hundreds of free icons. http://getbootstrap.com/components/#glyphicons They can be used on their own or inside of buttons with a link or regular button for example. -->
+<p>
+<a href="#" class="btn btn-primary btn-lg">Trash <span class="glyphicon glyphicon-trash"></span></a>
+
+<button type="button" class="btn btn-default btn-lg">
+
+  <!-- aria-hidden hides decorative icons from screen readers -->
+  <span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span> Call Me
+</button>
+</p>
+
+</div>
+</div>
 
 </html>
